@@ -4,6 +4,12 @@ class WordChecker:
 
     def is_word(self, string):
         return ' ' not in string
+    
+    def check(self,string):
+        if string is not None:
+            if(self.is_word(string)):
+                return True
+        return False
 
 class IntRangeChecker:
     def __init__(self):
@@ -21,6 +27,12 @@ class IntRangeChecker:
         except ValueError:
             return False
     
+    def check(self,string):
+        if string is not None:
+            if(self.is_int_range(string)):
+                return True
+        return False
+    
 
 class SpecialCharChecker:
     def __init__(self):
@@ -29,3 +41,9 @@ class SpecialCharChecker:
     def is_special_char(self, string):
         special_chars = set("@_!#$%^&*()<>?/+-|}{~:]£*µ§")
         return any(char in special_chars for char in string)
+
+    def check(self,string):
+        if string is not None:
+            if(self.is_special_char(string)):
+                return True
+        return False

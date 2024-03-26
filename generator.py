@@ -5,6 +5,9 @@ class Generator:
         self.ranges =[]
         self.specialC = []
         self.words = []
+        self.necessary = []
+        self.name = "Default Generator Name"
+        self.description = "Default Generator Description"
         
     def __init__(self,list) -> None:
         self.ranges =[]
@@ -22,60 +25,18 @@ class Generator:
                 self.words.append(e)
             else:
                 raise Exception(f"{e} should not be added to generator")
-
-class GeneratorWordRange(Generator):
-    def __init__(self, list) -> None:
-        super().__init__(list)
-        
-    def generate(self,outputdir):
-        
-        def append_string_to_file(file_path, string_to_append):
-            with open(file_path, 'a') as file:
-                file.write(string_to_append)
-        
-        def string_password(word,int):
-            return f"{word.get()}{int}\n"
-        
-        for word in self.words:
-            for range in self.ranges:
-                for i in range.getRange():
-                    append_string_to_file(outputdir,string_to_append=string_password(word,i))
             
+    def not_empty(self, *args):
+        for arg in args:
+            if len(arg = 0):
+                return False
+        return True
 
-class GeneratorWordRangeSpe(Generator):
-    def __init__(self, list) -> None:
-        super().__init__(list)
-        
-    def generate(self,outputdir):
-        
-        def append_string_to_file(file_path, string_to_append):
-            with open(file_path, 'a') as file:
-                file.write(string_to_append)
-        
-        def string_password(word,int,sc):
-            return f"{word.get()}{int}{sc.get()}\n"
-        
-        for word in self.words:
-            for range in self.ranges:
-                for i in range.getRange():
-                    for sc in self.specialC:
-                        append_string_to_file(outputdir,string_to_append=string_password(word,i,sc))
-                        
-class GeneratorWordSpeRange(Generator):
-    def __init__(self, list) -> None:
-        super().__init__(list)
-        
-    def generate(self,outputdir):
-        
-        def append_string_to_file(file_path, string_to_append):
-            with open(file_path, 'a') as file:
-                file.write(string_to_append)
-        
-        def string_password(word,int,sc):
-            return f"{word.get()}{sc.get()}{int}\n"
-        
-        for word in self.words:
-            for range in self.ranges:
-                for i in range.getRange():
-                    for sc in self.specialC:
-                        append_string_to_file(outputdir,string_to_append=string_password(word,i,sc))
+    def check_necessary(self):
+        if ("range" in self.necessary and len(self.ranges) == 0):
+            raise Exception("These should be range in this generator")
+        if ("word" in self.necessary and len(self.words) == 0):
+            raise Exception("These should be words in this generator")
+        if ("specialC" in self.necessary and len(self.specialC) == 0):
+            raise Exception("These should be special characters in this generator")    
+    
