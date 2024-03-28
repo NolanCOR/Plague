@@ -71,8 +71,10 @@ def import_element(listbox,name):
                         control = c.IntRangeChecker()
                         if control.check(word):
                             listbox.insert(tk.END, word)
-                            word_list.append(m.Word(word))
-                        
+                            aux = word[1:-1]
+                            aux = aux.split('...')
+                            print(aux)
+                            range_list.append(m.Range(int(aux[0]),int(aux[1])))
                     elif (name == "Special Characters"):
                         control = c.SpecialCharChecker()
                         if control.check(word):
@@ -80,19 +82,20 @@ def import_element(listbox,name):
                             sc_list.append(m.SpecialCase(word))
                     else:
                         control = c.WordChecker()
-                        if control.check(word):
+                        controlaux1 = c.IntRangeChecker()
+                        controlaux2 = c.SpecialCharChecker()
+                        if control.check(word) and not controlaux1.check(word) and not controlaux2.check(word):
                             listbox.insert(tk.END, word)
-                            sc_list.append(m.Word(word))                   
+                            word_list.append(m.Word(word))                   
     except Exception as e:
         print(e)
         messagebox.showerror("Error Selecting Output Directory", f"An error occurred while selecting the output directory:\n{e}")   
 
 def check_box(i):
     if i in selected_generators:
-        selected_generators.remove(i)
+        selected_generators.rprintemove(i)
     else:
         selected_generators.append(i)        
-    print(selected_generators)              
                     
                     
                     
@@ -104,6 +107,7 @@ def select_output_directory():
             messagebox.showerror("Output Directory Not Selected", "No output directory selected.")
             
         # Create list of models
+        print(range_list)
         model_list = range_list + word_list + sc_list
         generator_launcher_inst = GeneratorLauncher(selected_generators,model_list,output_path)
         generator_launcher_inst.generate()
@@ -167,24 +171,18 @@ list_card = inspect_file.inspecting("./generator")
 
 
 
-# Iterate over the cards and create a frame for each one
 for i, (title, description,index,filename) in enumerate(list_card):
-    print(index)
     if title != None and description != None:
         card_frame = tk.Frame(scrollable_frame.scrollable_frame, bg="#444444")
         card_frame.pack(fill=tk.X, expand=True, padx=10, pady=10)
 
-        # Create a checkbutton for the card
         check_var = tk.BooleanVar()
         checkbutton = tk.Checkbutton(card_frame, variable=check_var, bg="#444444", fg="#cccccc" ,command=lambda filename=filename:  check_box(filename))
         checkbutton.pack(side=tk.LEFT, padx=10, pady=10)
 
-        # Create a label for the title of the card
         title_label = tk.Label(card_frame, text=title, font=tkFont.Font(size=16, family="Helvetica"), bg="#444444", fg="#cccccc")
         title_label.pack(side=tk.TOP, padx=10, pady=10)
-
-        # Create a label for the description of the card
-        desc_label = tk.Label(card_frame, text=description, bg="#444444", fg="#cccccc",width=50,height=2)
+        desc_label = tk.Label(card_frame,justify=tk.LEFT, text=description, bg="#444444", fg="#cccccc",width=60,height=2)
         desc_label.pack(side=tk.TOP, padx=10, pady=10)
     
 root.mainloop()

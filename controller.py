@@ -40,7 +40,7 @@ class SpecialCharChecker:
 
     def is_special_char(self, string):
         special_chars = set("@_!#$%^&*()<>?/+-|}{~:]£*µ§")
-        return any(char in special_chars for char in string)
+        return len(string) == 1 and (string in special_chars)
 
     def check(self,string):
         if string is not None:

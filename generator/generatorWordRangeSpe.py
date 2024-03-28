@@ -5,7 +5,7 @@ class GeneratorWordRangeSpe(Generator):
         super().__init__(list)
         self.necessary = ['word','specialC','range']
         self.name = "GeneratorWordRangeSpe"
-        self.description = "test2"
+        self.description = "this generator uses the following pattern : [word][number][specialC]"
         
     def generate(self,outputdir):
         

@@ -5,7 +5,7 @@ class GeneratorWordRange(Generator):
         super().__init__(list)
         self.necessary = ['word','range']
         self.name = "GeneratorWordRange"
-        self.description = "test"
+        self.description = "this generator uses the following pattern : [word][number]"
         
     def generate(self,outputdir):
         
