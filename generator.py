@@ -1,19 +1,15 @@
 import models as m
 
-class Generator:
-    def __init__(self) -> None:
-        self.ranges =[]
-        self.specialC = []
-        self.words = []
-        self.necessary = []
-        self.name = "Default Generator Name"
-        self.description = "Default Generator Description"
-        
-    def __init__(self,list) -> None:
+class Generator:       
+    def __init__(self,list,outputdir) -> None:
         self.ranges =[]
         self.specialC = []
         self.words = []
         self.add(listToCheck=list)
+        self.name = "Default Generator Name"
+        self.description = "Default Generator Description"
+        self.generated = []
+        self.outputdir = outputdir
         
     def add(self,listToCheck):
         for e in listToCheck:
@@ -40,3 +36,8 @@ class Generator:
         if ("specialC" in self.necessary and len(self.specialC) == 0):
             raise Exception("These should be special characters in this generator")    
     
+    def write_generated(self):
+        with open(self.outputdir, 'a') as file:
+            for word in self.generated:
+                file.write(word)
+            

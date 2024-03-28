@@ -31,3 +31,53 @@ There are different types of generators available in the application, each with 
 Every generator has its own requirements, that means that a generator can require a single or a combination of elements. For example some generators can require only words and ranges, others can require words, ranges and special characters.
 
 Once generators are selected you can generate the password list by clicking 'Generate password list'. You can now select the output directory of your file and the password list will be generated and named `pwd_list.txt`.
+
+# Create your own generator
+
+To create a generator, you need to create a class that inherits from the class `Generator`.
+Then the generator need to have 3 attributes :
+* name : the generator's name that will be displayed in the user interface
+* description :   the generator's description that will be displayed in the user interface
+* necessary :  the different elements that the generator requires
+
+Finally the generator needs to have a method "generate". This method needs to :
+* process the string to obtain the desired pattern
+* add the desired string into attribute `self.generated`
+
+Once this is done, you just have to put the Python file (.py) into the folder `generator` then PLaGue will automatically detect it.
+
+# Example 
+```
+from generator import Generator
+
+  
+class GeneratorWordSpeRange(Generator): # inherits from Generator 
+
+def __init__(self, list, outputdir) -> None:
+
+super().__init__(list,outputdir)
+
+self.necessary = ['word','specialC','range'] # the generator uses the word, the special character and the range to generate a password
+
+self.name = "GeneratorWordSpeRange" # name that will be displayed in the interface
+
+self.description = "this generator uses the following pattern : [word][specialC][number]" # description that will be displayed in the interface
+
+def generate(self): # method generate
+
+def string_password(word,int,sc):
+
+return f"{word.get()}{sc.get()}{int}\n" # process the string and
+                                        # format it the way we want
+
+for word in self.words:
+
+for sc in self.specialC:
+
+for range in self.ranges:
+
+for i in range.getRange():
+
+self.generated += string_password(word,i,sc) # add it to self.generated
+```
+

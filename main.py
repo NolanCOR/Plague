@@ -50,8 +50,6 @@ def add_element(listbox,name):
                 else:
                     print("This is not a word")
     
-
-
 def delete_element(listbox):
     selection = listbox.curselection()
     if selection:
@@ -73,7 +71,6 @@ def import_element(listbox,name):
                             listbox.insert(tk.END, word)
                             aux = word[1:-1]
                             aux = aux.split('...')
-                            print(aux)
                             range_list.append(m.Range(int(aux[0]),int(aux[1])))
                     elif (name == "Special Characters"):
                         control = c.SpecialCharChecker()
@@ -93,7 +90,7 @@ def import_element(listbox,name):
 
 def check_box(i):
     if i in selected_generators:
-        selected_generators.rprintemove(i)
+        selected_generators.remove(i)
     else:
         selected_generators.append(i)        
                     
@@ -107,10 +104,13 @@ def select_output_directory():
             messagebox.showerror("Output Directory Not Selected", "No output directory selected.")
             
         # Create list of models
-        print(range_list)
-        model_list = range_list + word_list + sc_list
-        generator_launcher_inst = GeneratorLauncher(selected_generators,model_list,output_path)
-        generator_launcher_inst.generate()
+        try:
+            model_list = range_list + word_list + sc_list
+            generator_launcher_inst = GeneratorLauncher(selected_generators,model_list,output_path)
+            generator_launcher_inst.generate()
+            print("Successfully generated !")
+        except:
+            print("An error occured")
 
  
     except Exception as e:
